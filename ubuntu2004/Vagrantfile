@@ -1,0 +1,19 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/ubuntu2004"
+  # Set VMware provider
+  config.vm.provider "vmware_desktop"
+  # st the static IP for the vagrant box
+  config.vm.network "private_network", ip: "172.16.193.250"
+  config.vm.hostname = "ubuntu.server.local"
+  
+  # consifure the parameters for VirtualBox provider
+  config.vm.provider "vmware_desktop" do |vd|
+    vd.vmx["memsize"] = "4096"
+    vd.vmx["numvcpus"] = 4
+    vd.linked_clone = false
+  end
+
+end
