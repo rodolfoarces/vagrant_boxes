@@ -4,16 +4,16 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "bento/centos-stream-8"
   # st the static IP for the vagrant box
-  #config.vm.network "private_network", ip: "172.16.193.250"
+  config.vm.network "private_network", ip: "10.0.254.3"
   config.vm.hostname = "centos.server.local"
   # Adding SSH Public Keys
-  ssh_pub_key = File.readlines("#{Dir.home}/.ssh/authorized_keys").first.strip
+  ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.laptop-hp.pub").first.strip
   config.vm.provision 'shell', inline: "echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys", privileged: false 
   # configure the parameters for VMware provider
   config.vm.provider "vmware_desktop" do |vd|
     vd.vmx["memsize"] = "2048"
     vd.vmx["numvcpus"] = 2
-    vd.linked_clone = false
+    vd.linked_clone = true
     vd.nat_device = "vmnet8"
   end
   # configure parameters for LibVirt provider
